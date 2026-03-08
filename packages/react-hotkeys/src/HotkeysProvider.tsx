@@ -1,4 +1,4 @@
-import React, { createContext, use, useMemo } from 'react'
+import React, { createContext, useContext, useMemo } from 'react'
 import type { ReactNode } from 'react'
 import type { HotkeyRecorderOptions } from '@tanstack/hotkeys'
 import type { UseHotkeyOptions } from './useHotkey'
@@ -34,14 +34,21 @@ export function HotkeysProvider({
     [defaultOptions],
   )
 
-  return <HotkeysContext value={contextValue}>{children}</HotkeysContext>
+  return (
+    // eslint-disable-next-line @eslint-react/no-context-provider -- React 19+ only; we support React >=16.8
+    <HotkeysContext.Provider value={contextValue}>
+      {children}
+    </HotkeysContext.Provider>
+  )
 }
 
 export function useHotkeysContext() {
-  return use(HotkeysContext)
+  // eslint-disable-next-line @eslint-react/no-use-context -- React 19+ only; we support React >=16.8
+  return useContext(HotkeysContext)
 }
 
 export function useDefaultHotkeysOptions() {
-  const context = use(HotkeysContext)
+  // eslint-disable-next-line @eslint-react/no-use-context -- React 19+ only; we support React >=16.8
+  const context = useContext(HotkeysContext)
   return context?.defaultOptions ?? {}
 }
