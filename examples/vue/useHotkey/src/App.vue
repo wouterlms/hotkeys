@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import {  formatForDisplay, useHotkey } from '@tanstack/vue-hotkeys'
-import type {Hotkey} from '@tanstack/vue-hotkeys';
+import { formatForDisplay, useHotkey } from '@tanstack/vue-hotkeys'
+import type { Hotkey } from '@tanstack/vue-hotkeys'
 
 const lastHotkey = ref<Hotkey | null>(null)
 const saveCount = ref(0)
@@ -107,7 +107,7 @@ useHotkey(
     const beforeSelection = text.substring(0, start)
     const selection = text.substring(start, end)
     const afterSelection = text.substring(end)
-    
+
     editorContent.value = beforeSelection + '// ' + selection + afterSelection
   },
   { target: editorRef },
@@ -119,8 +119,8 @@ useHotkey(
     <header>
       <h1>useHotkey</h1>
       <p>
-        Register keyboard shortcuts with the useHotkey composable. Supports scoped
-        shortcuts, conditional enabling, and cross-platform Mod key.
+        Register keyboard shortcuts with the useHotkey composable. Supports
+        scoped shortcuts, conditional enabling, and cross-platform Mod key.
       </p>
     </header>
 
@@ -174,11 +174,13 @@ useHotkey(
 
       <section class="demo-section">
         <h2>Scoped Hotkeys</h2>
-        
+
         <div class="scoped-demo">
           <div ref="sidebarRef" tabindex="0" class="scoped-box sidebar">
             <h3>Sidebar (focus me)</h3>
-            <p>Press <kbd>{{ formatForDisplay('Mod+B') }}</kbd> while focused</p>
+            <p>
+              Press <kbd>{{ formatForDisplay('Mod+B') }}</kbd> while focused
+            </p>
             <p>Triggered {{ sidebarShortcutCount }} times</p>
           </div>
 
@@ -197,14 +199,19 @@ useHotkey(
 
         <div class="editor-demo">
           <h3>Code Editor</h3>
-          <p>Focus and press <kbd>{{ formatForDisplay('Mod+/') }}</kbd> to comment</p>
+          <p>
+            Focus and press <kbd>{{ formatForDisplay('Mod+/') }}</kbd> to
+            comment
+          </p>
           <textarea
             ref="editorRef"
             v-model="editorContent"
             class="code-editor"
             placeholder="Type some code here..."
           ></textarea>
-          <p class="editor-stats">Comment shortcut used {{ editorShortcutCount }} times</p>
+          <p class="editor-stats">
+            Comment shortcut used {{ editorShortcutCount }} times
+          </p>
         </div>
       </section>
     </main>

@@ -40,6 +40,10 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
+    "./production": {
+      "import": "./dist/production.js",
+      "require": "./dist/production.cjs"
+    },
     "./package.json": "./package.json"
   },
   "sideEffects": false,

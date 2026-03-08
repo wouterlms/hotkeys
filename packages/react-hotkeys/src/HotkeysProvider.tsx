@@ -34,11 +34,7 @@ export function HotkeysProvider({
     [defaultOptions],
   )
 
-  return (
-    <HotkeysContext value={contextValue}>
-      {children}
-    </HotkeysContext>
-  )
+  return <HotkeysContext value={contextValue}>{children}</HotkeysContext>
 }
 
 export function useHotkeysContext() {

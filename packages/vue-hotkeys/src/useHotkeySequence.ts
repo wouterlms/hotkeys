@@ -1,28 +1,30 @@
-import {  onUnmounted, unref, watch } from 'vue'
+import { onUnmounted, unref, watch } from 'vue'
 import { getSequenceManager } from '@tanstack/hotkeys'
 import { useDefaultHotkeysOptions } from './HotkeysProviderContext'
-import type {MaybeRefOrGetter} from 'vue';
+import type { MaybeRefOrGetter } from 'vue'
 import type {
   HotkeyCallback,
   HotkeySequence,
   SequenceOptions,
+  SequenceRegistrationHandle,
 } from '@tanstack/hotkeys'
 
 export interface UseHotkeySequenceOptions extends Omit<
   SequenceOptions,
-  'target'
+  'enabled' | 'target'
 > {
+  /**
+   * Whether the sequence is active.
+   * Can be a Ref, a getter function, or a boolean value.
+   * Defaults to true.
+   */
+  enabled?: MaybeRefOrGetter<boolean>
   /**
    * The DOM element to attach the event listener to.
    * Can be a Ref, a getter function, direct DOM element, or null.
    * Defaults to document.
    */
-  target?:
-    | MaybeRefOrGetter<HTMLElement | null>
-    | HTMLElement
-    | Document
-    | Window
-    | null
+  target?: MaybeRefOrGetter<HTMLElement | Document | Window | null>
 }
 
 /**
@@ -69,35 +71,43 @@ export function useHotkeySequence(
   const defaultOptions = useDefaultHotkeysOptions()
   const manager = getSequenceManager()
 
-  let registration: any = null
+  let registration: SequenceRegistrationHandle | null = null
 
   // Watch for changes to reactive dependencies
   const stopWatcher = watch(
     () => {
-      const resolvedSequence = unref(sequence)
-      const resolvedOptions = unref(options)
+      const resolvedSequence = resolveMaybeRefOrGetter(sequence)
+      const resolvedOptions = resolveMaybeRefOrGetter(options)
       const mergedOptions = {
         ...defaultOptions.hotkeySequence,
         ...resolvedOptions,
       } as UseHotkeySequenceOptions
+      const resolvedEnabled =
+        mergedOptions.enabled === undefined
+          ? undefined
+          : resolveMaybeRefOrGetter(mergedOptions.enabled)
+      const resolvedTarget =
+        mergedOptions.target === undefined
+          ? undefined
+          : resolveMaybeRefOrGetter(mergedOptions.target)
 
-      return { resolvedSequence, mergedOptions }
+      return {
+        resolvedSequence,
+        mergedOptions,
+        resolvedEnabled,
+        resolvedTarget,
+      }
     },
-    ({ resolvedSequence, mergedOptions }) => {
-      if (resolvedSequence.length === 0) {
+    ({ resolvedSequence, mergedOptions, resolvedEnabled, resolvedTarget }) => {
+      if (resolvedEnabled === false || resolvedSequence.length === 0) {
         return
       }
 
       // Resolve target
-      let targetValue = 'target' in mergedOptions ? mergedOptions.target : null
-      if (typeof targetValue === 'function') {
-        targetValue = targetValue()
-      } else {
-        targetValue = unref(targetValue)
-      }
-      const resolvedTarget = targetValue ?? (typeof document !== 'undefined' ? document : null)
+      const finalTarget =
+        resolvedTarget ?? (typeof document !== 'undefined' ? document : null)
 
-      if (!resolvedTarget) {
+      if (!finalTarget) {
         return
       }
 
@@ -108,12 +118,20 @@ export function useHotkeySequence(
       }
 
       // Extract options without target (target is handled separately)
-      const { target: _target, ...optionsWithoutTarget } = mergedOptions
+      const {
+        target: _target,
+        enabled: _enabled,
+        ...restOptions
+      } = mergedOptions
+      const optionsWithoutTarget = {
+        ...restOptions,
+        ...(resolvedEnabled === undefined ? {} : { enabled: resolvedEnabled }),
+      }
 
       // Register the sequence
-      registration = manager.register(resolvedSequence as any, callback, {
+      registration = manager.register(resolvedSequence, callback, {
         ...optionsWithoutTarget,
-        target: resolvedTarget,
+        target: finalTarget,
       })
 
       // Update callback and options
@@ -133,4 +151,8 @@ export function useHotkeySequence(
       registration = null
     }
   })
+}
+
+function resolveMaybeRefOrGetter<T>(value: MaybeRefOrGetter<T>): T {
+  return typeof value === 'function' ? (value as () => T)() : unref(value)
 }

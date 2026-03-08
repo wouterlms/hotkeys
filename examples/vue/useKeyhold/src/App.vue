@@ -9,12 +9,26 @@ const isSpaceHeld = useKeyHold('Space')
 </script>
 
 <template>
-  <div style="padding: 2rem; font-family: sans-serif; max-width: 800px; margin: 0 auto;">
+  <div
+    style="
+      padding: 2rem;
+      font-family: sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+    "
+  >
     <h1>useKeyHold</h1>
     <p>Returns a boolean indicating if a specific key is currently held.</p>
-    
+
     <h2>Modifier Key States</h2>
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin: 2rem 0;">
+    <div
+      style="
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin: 2rem 0;
+      "
+    >
       <div
         :style="{
           padding: '2rem',
@@ -25,10 +39,10 @@ const isSpaceHeld = useKeyHold('Space')
           transition: 'all 0.2s',
         }"
       >
-        <div style="font-size: 1.5rem; font-weight: bold;">Shift</div>
+        <div style="font-size: 1.5rem; font-weight: bold">Shift</div>
         <div>{{ isShiftHeld ? 'HELD' : 'Released' }}</div>
       </div>
-      
+
       <div
         :style="{
           padding: '2rem',
@@ -39,10 +53,10 @@ const isSpaceHeld = useKeyHold('Space')
           transition: 'all 0.2s',
         }"
       >
-        <div style="font-size: 1.5rem; font-weight: bold;">Control</div>
+        <div style="font-size: 1.5rem; font-weight: bold">Control</div>
         <div>{{ isControlHeld ? 'HELD' : 'Released' }}</div>
       </div>
-      
+
       <div
         :style="{
           padding: '2rem',
@@ -53,10 +67,10 @@ const isSpaceHeld = useKeyHold('Space')
           transition: 'all 0.2s',
         }"
       >
-        <div style="font-size: 1.5rem; font-weight: bold;">Alt</div>
+        <div style="font-size: 1.5rem; font-weight: bold">Alt</div>
         <div>{{ isAltHeld ? 'HELD' : 'Released' }}</div>
       </div>
-      
+
       <div
         :style="{
           padding: '2rem',
@@ -67,7 +81,7 @@ const isSpaceHeld = useKeyHold('Space')
           transition: 'all 0.2s',
         }"
       >
-        <div style="font-size: 1.5rem; font-weight: bold;">Meta (⌘/⊞)</div>
+        <div style="font-size: 1.5rem; font-weight: bold">Meta (⌘/⊞)</div>
         <div>{{ isMetaHeld ? 'HELD' : 'Released' }}</div>
       </div>
     </div>
@@ -90,7 +104,14 @@ const isSpaceHeld = useKeyHold('Space')
     </div>
 
     <h2>Usage</h2>
-    <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>import { useKeyHold } from '@tanstack/vue-hotkeys'
+    <pre
+      style="
+        background: #f5f5f5;
+        padding: 1rem;
+        border-radius: 4px;
+        overflow-x: auto;
+      "
+    ><code>import { useKeyHold } from '@tanstack/vue-hotkeys'
 
 const isShiftHeld = useKeyHold('Shift')
 

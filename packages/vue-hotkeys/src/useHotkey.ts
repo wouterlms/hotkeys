@@ -15,18 +15,22 @@ import type {
 } from '@tanstack/hotkeys'
 import type { MaybeRefOrGetter } from 'vue'
 
-export interface UseHotkeyOptions extends Omit<HotkeyOptions, 'target'> {
+export interface UseHotkeyOptions extends Omit<
+  HotkeyOptions,
+  'enabled' | 'target'
+> {
+  /**
+   * Whether the hotkey is active.
+   * Can be a Ref, a getter function, or a boolean value.
+   * Defaults to true.
+   */
+  enabled?: MaybeRefOrGetter<boolean>
   /**
    * The DOM element to attach the event listener to.
    * Can be a Ref, a getter function, direct DOM element, or null.
    * Defaults to document.
    */
-  target?:
-    | MaybeRefOrGetter<HTMLElement | null>
-    | HTMLElement
-    | Document
-    | Window
-    | null
+  target?: MaybeRefOrGetter<HTMLElement | Document | Window | null>
 }
 
 /**
@@ -106,16 +110,29 @@ export function useHotkey(
   // Watch for changes to reactive dependencies
   const stopWatcher = watch(
     () => {
-      const resolvedHotkey = unref(hotkey)
-      const resolvedOptions = unref(options)
+      const resolvedHotkey = resolveMaybeRefOrGetter(hotkey)
+      const resolvedOptions = resolveMaybeRefOrGetter(options)
       const mergedOptions = {
         ...defaultOptions.hotkey,
         ...resolvedOptions,
       } as UseHotkeyOptions
+      const resolvedEnabled =
+        mergedOptions.enabled === undefined
+          ? undefined
+          : resolveMaybeRefOrGetter(mergedOptions.enabled)
+      const resolvedTarget =
+        mergedOptions.target === undefined
+          ? undefined
+          : resolveMaybeRefOrGetter(mergedOptions.target)
 
-      return { resolvedHotkey, mergedOptions }
+      return {
+        resolvedHotkey,
+        mergedOptions,
+        resolvedEnabled,
+        resolvedTarget,
+      }
     },
-    ({ resolvedHotkey, mergedOptions }) => {
+    ({ resolvedHotkey, mergedOptions, resolvedEnabled, resolvedTarget }) => {
       // Normalize to hotkey string
       const platform = mergedOptions.platform ?? detectPlatform()
       const hotkeyString: Hotkey =
@@ -126,15 +143,10 @@ export function useHotkey(
             ) as Hotkey)
 
       // Resolve target
-      let targetValue = 'target' in mergedOptions ? mergedOptions.target : null
-      if (typeof targetValue === 'function') {
-        targetValue = targetValue()
-      } else {
-        targetValue = unref(targetValue)
-      }
-      const resolvedTarget = targetValue ?? (typeof document !== 'undefined' ? document : null)
+      const finalTarget =
+        resolvedTarget ?? (typeof document !== 'undefined' ? document : null)
 
-      if (!resolvedTarget) {
+      if (!finalTarget) {
         return
       }
 
@@ -145,12 +157,20 @@ export function useHotkey(
       }
 
       // Extract options without target (target is handled separately)
-      const { target: _target, ...optionsWithoutTarget } = mergedOptions
+      const {
+        target: _target,
+        enabled: _enabled,
+        ...restOptions
+      } = mergedOptions
+      const optionsWithoutTarget = {
+        ...restOptions,
+        ...(resolvedEnabled === undefined ? {} : { enabled: resolvedEnabled }),
+      }
 
       // Register the hotkey
       registration = manager.register(hotkeyString, callback, {
         ...optionsWithoutTarget,
-        target: resolvedTarget,
+        target: finalTarget,
       })
 
       // Update callback and options
@@ -170,4 +190,8 @@ export function useHotkey(
       registration = null
     }
   })
+}
+
+function resolveMaybeRefOrGetter<T>(value: MaybeRefOrGetter<T>): T {
+  return typeof value === 'function' ? (value as () => T)() : unref(value)
 }

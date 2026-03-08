@@ -1,7 +1,7 @@
 import { useStore } from '@tanstack/vue-store'
 import { getKeyStateTracker } from '@tanstack/hotkeys'
-import {   unref } from 'vue'
-import type {MaybeRefOrGetter, Ref} from 'vue';
+import { unref } from 'vue'
+import type { MaybeRefOrGetter, Ref } from 'vue'
 import type { HeldKey } from '@tanstack/hotkeys'
 
 /**
@@ -50,11 +50,15 @@ import type { HeldKey } from '@tanstack/hotkeys'
  */
 export function useKeyHold(key: MaybeRefOrGetter<HeldKey>): Ref<boolean> {
   const tracker = getKeyStateTracker()
-  
+
   const isHeld = useStore(tracker.store, (state) => {
     const keyValue = unref(key)
-    const normalizedKey = (typeof keyValue === 'string' ? keyValue : String(keyValue)).toLowerCase()
-    return state.heldKeys.some((heldKey) => heldKey.toLowerCase() === normalizedKey)
+    const normalizedKey = (
+      typeof keyValue === 'string' ? keyValue : String(keyValue)
+    ).toLowerCase()
+    return state.heldKeys.some(
+      (heldKey) => heldKey.toLowerCase() === normalizedKey,
+    )
   })
 
   return isHeld as Ref<boolean>

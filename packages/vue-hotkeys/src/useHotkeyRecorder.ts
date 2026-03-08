@@ -1,8 +1,8 @@
-import {   onUnmounted, unref } from 'vue'
+import { onUnmounted, unref, watch } from 'vue'
 import { useStore } from '@tanstack/vue-store'
 import { HotkeyRecorder } from '@tanstack/hotkeys'
 import { useDefaultHotkeysOptions } from './HotkeysProviderContext'
-import type {MaybeRefOrGetter, Ref} from 'vue';
+import type { MaybeRefOrGetter, Ref } from 'vue'
 import type { Hotkey, HotkeyRecorderOptions } from '@tanstack/hotkeys'
 
 export interface VueHotkeyRecorder {
@@ -63,16 +63,9 @@ export function useHotkeyRecorder(
   options: MaybeRefOrGetter<HotkeyRecorderOptions>,
 ): VueHotkeyRecorder {
   const defaultOptions = useDefaultHotkeysOptions()
-
-  // Merge default options with provided options
-  const resolvedOptions = unref(options)
-  const mergedOptions = {
-    ...defaultOptions.hotkeyRecorder,
-    ...resolvedOptions,
-  } as HotkeyRecorderOptions
-
-  // Create recorder instance
-  const recorder = new HotkeyRecorder(mergedOptions)
+  const recorder = new HotkeyRecorder(
+    resolveRecorderOptions(options, defaultOptions),
+  )
 
   // Subscribe to recorder state using useStore
   const isRecording = useStore(recorder.store, (state) => state.isRecording)
@@ -81,8 +74,17 @@ export function useHotkeyRecorder(
     (state) => state.recordedHotkey,
   )
 
+  const stopWatcher = watch(
+    () => resolveRecorderOptions(options, defaultOptions),
+    (resolvedOptions) => {
+      recorder.setOptions(resolvedOptions)
+    },
+    { immediate: true },
+  )
+
   // Cleanup on unmount
   onUnmounted(() => {
+    stopWatcher()
     recorder.destroy()
   })
 
@@ -93,4 +95,18 @@ export function useHotkeyRecorder(
     stopRecording: () => recorder.stop(),
     cancelRecording: () => recorder.cancel(),
   }
+}
+
+function resolveRecorderOptions(
+  options: MaybeRefOrGetter<HotkeyRecorderOptions>,
+  defaultOptions: ReturnType<typeof useDefaultHotkeysOptions>,
+): HotkeyRecorderOptions {
+  return {
+    ...defaultOptions.hotkeyRecorder,
+    ...resolveMaybeRefOrGetter(options),
+  } as HotkeyRecorderOptions
+}
+
+function resolveMaybeRefOrGetter<T>(value: MaybeRefOrGetter<T>): T {
+  return typeof value === 'function' ? (value as () => T)() : unref(value)
 }
