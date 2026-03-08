@@ -28,27 +28,19 @@ const heldKeys = useHeldKeys()
               <kbd>{{ key }}</kbd>
             </template>
           </div>
-          <span v-else class="recording-text">Press any key combination...</span>
+          <span v-else class="recording-text"
+            >Press any key combination...</span
+          >
         </div>
         <kbd v-else-if="hotkey">{{ formatForDisplay(hotkey as Hotkey) }}</kbd>
         <span v-else class="no-shortcut">No shortcut</span>
       </div>
     </div>
     <div class="shortcut-actions">
-      <button
-        v-if="isRecording"
-        class="cancel-button"
-        @click="$emit('cancel')"
-      >
+      <button v-if="isRecording" class="cancel-button" @click="$emit('cancel')">
         Cancel
       </button>
-      <button
-        v-else
-        class="edit-button"
-        @click="$emit('edit')"
-      >
-        Edit
-      </button>
+      <button v-else class="edit-button" @click="$emit('edit')">Edit</button>
     </div>
   </div>
 </template>

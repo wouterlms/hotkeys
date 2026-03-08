@@ -16,7 +16,9 @@ const plugins = [{ name: 'TanStack Hotkeys', component: HotkeysDevtoolsPanel }]
 
 watch(heldKeys, (keys) => {
   if (keys.length > 0) {
-    const combo = keys.map((key) => formatKeyForDebuggingDisplay(key)).join(' + ')
+    const combo = keys
+      .map((key) => formatKeyForDebuggingDisplay(key))
+      .join(' + ')
     history.value =
       history.value[history.value.length - 1] !== combo
         ? [...history.value.slice(-9), combo]
@@ -72,7 +74,9 @@ function KeyDisplay() {
             </template>
             <span v-else class="placeholder">Press any keys...</span>
           </div>
-          <div class="stats">Keys held: <strong>{{ heldKeys.length }}</strong></div>
+          <div class="stats">
+            Keys held: <strong>{{ heldKeys.length }}</strong>
+          </div>
         </section>
 
         <section class="demo-section">

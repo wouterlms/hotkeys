@@ -40,11 +40,15 @@ function ShiftIndicator() {
           <div class="modifier-grid">
             <div class="modifier-indicator" :class="{ active: isShiftHeld }">
               <span class="key-name">Shift</span>
-              <span class="status">{{ isShiftHeld ? 'HELD' : 'Released' }}</span>
+              <span class="status">{{
+                isShiftHeld ? 'HELD' : 'Released'
+              }}</span>
             </div>
             <div class="modifier-indicator" :class="{ active: isControlHeld }">
               <span class="key-name">Control</span>
-              <span class="status">{{ isControlHeld ? 'HELD' : 'Released' }}</span>
+              <span class="status">{{
+                isControlHeld ? 'HELD' : 'Released'
+              }}</span>
             </div>
             <div class="modifier-indicator" :class="{ active: isAltHeld }">
               <span class="key-name">Alt / Option</span>
@@ -71,9 +75,7 @@ function ShiftIndicator() {
 
         <section class="demo-section">
           <h2>Conditional UI Example</h2>
-          <p>
-            Hold <kbd>Shift</kbd> to reveal the secret message:
-          </p>
+          <p>Hold <kbd>Shift</kbd> to reveal the secret message:</p>
           <div class="secret-box" :class="{ revealed: isShiftHeld }">
             {{
               isShiftHeld

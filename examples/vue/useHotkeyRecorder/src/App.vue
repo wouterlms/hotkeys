@@ -88,7 +88,9 @@ const recorder = useHotkeyRecorder({
 })
 
 useHotkey(
-  () => (shortcuts.value.save || DEFAULT_SHORTCUT_ACTIONS.save.defaultHotkey) as Hotkey,
+  () =>
+    (shortcuts.value.save ||
+      DEFAULT_SHORTCUT_ACTIONS.save.defaultHotkey) as Hotkey,
   () => {
     console.log('Save triggered:', shortcuts.value.save)
     saveCount.value++
@@ -99,7 +101,9 @@ useHotkey(
 )
 
 useHotkey(
-  () => (shortcuts.value.open || DEFAULT_SHORTCUT_ACTIONS.open.defaultHotkey) as Hotkey,
+  () =>
+    (shortcuts.value.open ||
+      DEFAULT_SHORTCUT_ACTIONS.open.defaultHotkey) as Hotkey,
   () => {
     console.log('Open triggered:', shortcuts.value.open)
     openCount.value++
@@ -110,7 +114,9 @@ useHotkey(
 )
 
 useHotkey(
-  () => (shortcuts.value.new || DEFAULT_SHORTCUT_ACTIONS.new.defaultHotkey) as Hotkey,
+  () =>
+    (shortcuts.value.new ||
+      DEFAULT_SHORTCUT_ACTIONS.new.defaultHotkey) as Hotkey,
   () => {
     console.log('New triggered:', shortcuts.value.new)
     newCount.value++
@@ -121,7 +127,9 @@ useHotkey(
 )
 
 useHotkey(
-  () => (shortcuts.value.close || DEFAULT_SHORTCUT_ACTIONS.close.defaultHotkey) as Hotkey,
+  () =>
+    (shortcuts.value.close ||
+      DEFAULT_SHORTCUT_ACTIONS.close.defaultHotkey) as Hotkey,
   () => {
     console.log('Close triggered:', shortcuts.value.close)
     closeCount.value++
@@ -132,7 +140,9 @@ useHotkey(
 )
 
 useHotkey(
-  () => (shortcuts.value.undo || DEFAULT_SHORTCUT_ACTIONS.undo.defaultHotkey) as Hotkey,
+  () =>
+    (shortcuts.value.undo ||
+      DEFAULT_SHORTCUT_ACTIONS.undo.defaultHotkey) as Hotkey,
   () => {
     console.log('Undo triggered:', shortcuts.value.undo)
     undoCount.value++
@@ -143,7 +153,9 @@ useHotkey(
 )
 
 useHotkey(
-  () => (shortcuts.value.redo || DEFAULT_SHORTCUT_ACTIONS.redo.defaultHotkey) as Hotkey,
+  () =>
+    (shortcuts.value.redo ||
+      DEFAULT_SHORTCUT_ACTIONS.redo.defaultHotkey) as Hotkey,
   () => {
     console.log('Redo triggered:', shortcuts.value.redo)
     redoCount.value++
@@ -206,7 +218,9 @@ function App() {
               :key="actionId"
               :action-name="action.name"
               :hotkey="shortcuts[actionId] || ''"
-              :is-recording="recorder.isRecording && recordingActionId === actionId"
+              :is-recording="
+                recorder.isRecording && recordingActionId === actionId
+              "
               @edit="handleEdit(actionId)"
               @cancel="handleCancel"
             />
@@ -235,7 +249,9 @@ function App() {
             <div class="stat-item">
               <div class="stat-label">Close</div>
               <div class="stat-value">{{ closeCount }}</div>
-              <kbd>{{ formatForDisplay(shortcuts.close || 'Mod+Shift+K') }}</kbd>
+              <kbd>{{
+                formatForDisplay(shortcuts.close || 'Mod+Shift+K')
+              }}</kbd>
             </div>
             <div class="stat-item">
               <div class="stat-label">Undo</div>

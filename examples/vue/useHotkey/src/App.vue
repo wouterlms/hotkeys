@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { TanStackDevtools } from '@tanstack/vue-devtools'
-import { HotkeysProvider, formatForDisplay, useHotkey } from '@tanstack/vue-hotkeys'
+import {
+  HotkeysProvider,
+  formatForDisplay,
+  useHotkey,
+} from '@tanstack/vue-hotkeys'
 import { HotkeysDevtoolsPanel } from '@tanstack/vue-hotkeys-devtools'
 import type { Hotkey } from '@tanstack/vue-hotkeys'
 import { nextTick, ref, watch } from 'vue'
@@ -375,8 +379,8 @@ useHotkey(
         <section class="demo-section">
           <h2>With requireReset</h2>
           <p>
-            Hold <kbd>{{ formatForDisplay('Mod+K') }}</kbd> — only increments once
-            until you release all keys
+            Hold <kbd>{{ formatForDisplay('Mod+K') }}</kbd> — only increments
+            once until you release all keys
           </p>
           <div class="counter">Increment: {{ incrementCount }}</div>
           <p class="hint">
@@ -402,11 +406,21 @@ useHotkey(
           <h2>Number Key Combinations</h2>
           <p>Common for tab/section switching:</p>
           <div class="hotkey-grid">
-            <div><kbd>{{ formatForDisplay('Mod+1') }}</kbd> → Tab 1</div>
-            <div><kbd>{{ formatForDisplay('Mod+2') }}</kbd> → Tab 2</div>
-            <div><kbd>{{ formatForDisplay('Mod+3') }}</kbd> → Tab 3</div>
-            <div><kbd>{{ formatForDisplay('Mod+4') }}</kbd> → Tab 4</div>
-            <div><kbd>{{ formatForDisplay('Mod+5') }}</kbd> → Tab 5</div>
+            <div>
+              <kbd>{{ formatForDisplay('Mod+1') }}</kbd> → Tab 1
+            </div>
+            <div>
+              <kbd>{{ formatForDisplay('Mod+2') }}</kbd> → Tab 2
+            </div>
+            <div>
+              <kbd>{{ formatForDisplay('Mod+3') }}</kbd> → Tab 3
+            </div>
+            <div>
+              <kbd>{{ formatForDisplay('Mod+4') }}</kbd> → Tab 4
+            </div>
+            <div>
+              <kbd>{{ formatForDisplay('Mod+5') }}</kbd> → Tab 5
+            </div>
           </div>
           <div class="counter">Active Tab: {{ activeTab }}</div>
           <pre class="code-block">{{ numberCode }}</pre>
@@ -416,7 +430,9 @@ useHotkey(
           <h2>Navigation Key Combinations</h2>
           <p>Selection and navigation shortcuts:</p>
           <div class="hotkey-grid">
-            <div><kbd>{{ formatForDisplay('Shift+ArrowUp') }}</kbd> — Select up</div>
+            <div>
+              <kbd>{{ formatForDisplay('Shift+ArrowUp') }}</kbd> — Select up
+            </div>
             <div>
               <kbd>{{ formatForDisplay('Shift+ArrowDown') }}</kbd> — Select down
             </div>
@@ -427,16 +443,23 @@ useHotkey(
               <kbd>{{ formatForDisplay('Alt+ArrowRight') }}</kbd> — Navigate
               forward
             </div>
-            <div><kbd>{{ formatForDisplay('Mod+Home') }}</kbd> — Go to start</div>
-            <div><kbd>{{ formatForDisplay('Mod+End') }}</kbd> — Go to end</div>
             <div>
-              <kbd>{{ formatForDisplay('Control+PageUp') }}</kbd> — Previous page
+              <kbd>{{ formatForDisplay('Mod+Home') }}</kbd> — Go to start
+            </div>
+            <div>
+              <kbd>{{ formatForDisplay('Mod+End') }}</kbd> — Go to end
+            </div>
+            <div>
+              <kbd>{{ formatForDisplay('Control+PageUp') }}</kbd> — Previous
+              page
             </div>
             <div>
               <kbd>{{ formatForDisplay('Control+PageDown') }}</kbd> — Next page
             </div>
           </div>
-          <div class="counter">Navigation triggered: {{ navigationCount }}x</div>
+          <div class="counter">
+            Navigation triggered: {{ navigationCount }}x
+          </div>
           <pre class="code-block">{{ navigationCode }}</pre>
         </section>
 
@@ -444,15 +467,25 @@ useHotkey(
           <h2>Function Key Combinations</h2>
           <p>System and application shortcuts:</p>
           <div class="hotkey-grid">
-            <div><kbd>{{ formatForDisplay('Alt+F4') }}</kbd> — Close window</div>
+            <div>
+              <kbd>{{ formatForDisplay('Alt+F4') }}</kbd> — Close window
+            </div>
             <div>
               <kbd>{{ formatForDisplay('Control+F5') }}</kbd> — Hard refresh
             </div>
-            <div><kbd>{{ formatForDisplay('Mod+F1') }}</kbd> — Help</div>
-            <div><kbd>{{ formatForDisplay('Shift+F10') }}</kbd> — Context menu</div>
-            <div><kbd>{{ formatForDisplay('F12') }}</kbd> — DevTools</div>
+            <div>
+              <kbd>{{ formatForDisplay('Mod+F1') }}</kbd> — Help
+            </div>
+            <div>
+              <kbd>{{ formatForDisplay('Shift+F10') }}</kbd> — Context menu
+            </div>
+            <div>
+              <kbd>{{ formatForDisplay('F12') }}</kbd> — DevTools
+            </div>
           </div>
-          <div class="counter">Function keys triggered: {{ functionKeyCount }}x</div>
+          <div class="counter">
+            Function keys triggered: {{ functionKeyCount }}x
+          </div>
           <pre class="code-block">{{ functionCode }}</pre>
         </section>
 
@@ -460,15 +493,23 @@ useHotkey(
           <h2>Multi-Modifier Combinations</h2>
           <p>Complex shortcuts with multiple modifiers:</p>
           <div class="hotkey-grid">
-            <div><kbd>{{ formatForDisplay('Mod+Shift+S') }}</kbd> — Save As</div>
-            <div><kbd>{{ formatForDisplay('Mod+Shift+Z') }}</kbd> — Redo</div>
             <div>
-              <kbd>{{ formatForDisplay('Control+Alt+A') }}</kbd> — Special action
+              <kbd>{{ formatForDisplay('Mod+Shift+S') }}</kbd> — Save As
             </div>
             <div>
-              <kbd>{{ formatForDisplay('Control+Shift+N') }}</kbd> — New incognito
+              <kbd>{{ formatForDisplay('Mod+Shift+Z') }}</kbd> — Redo
             </div>
-            <div><kbd>{{ formatForDisplay('Mod+Alt+T') }}</kbd> — Toggle theme</div>
+            <div>
+              <kbd>{{ formatForDisplay('Control+Alt+A') }}</kbd> — Special
+              action
+            </div>
+            <div>
+              <kbd>{{ formatForDisplay('Control+Shift+N') }}</kbd> — New
+              incognito
+            </div>
+            <div>
+              <kbd>{{ formatForDisplay('Mod+Alt+T') }}</kbd> — Toggle theme
+            </div>
             <div>
               <kbd>{{ formatForDisplay('Control+Alt+Shift+X') }}</kbd> — Triple
               modifier
@@ -484,21 +525,31 @@ useHotkey(
           <h2>Editing Key Combinations</h2>
           <p>Text editing and form shortcuts:</p>
           <div class="hotkey-grid">
-            <div><kbd>{{ formatForDisplay('Mod+Enter') }}</kbd> — Submit form</div>
-            <div><kbd>{{ formatForDisplay('Shift+Enter') }}</kbd> — New line</div>
+            <div>
+              <kbd>{{ formatForDisplay('Mod+Enter') }}</kbd> — Submit form
+            </div>
+            <div>
+              <kbd>{{ formatForDisplay('Shift+Enter') }}</kbd> — New line
+            </div>
             <div>
               <kbd>{{ formatForDisplay('Mod+Backspace') }}</kbd> — Delete word
             </div>
             <div>
               <kbd>{{ formatForDisplay('Mod+Delete') }}</kbd> — Delete forward
             </div>
-            <div><kbd>{{ formatForDisplay('Control+Tab') }}</kbd> — Next tab</div>
+            <div>
+              <kbd>{{ formatForDisplay('Control+Tab') }}</kbd> — Next tab
+            </div>
             <div>
               <kbd>{{ formatForDisplay('Shift+Tab') }}</kbd> — Previous field
             </div>
-            <div><kbd>{{ formatForDisplay('Mod+Space') }}</kbd> — Toggle</div>
+            <div>
+              <kbd>{{ formatForDisplay('Mod+Space') }}</kbd> — Toggle
+            </div>
           </div>
-          <div class="counter">Editing keys triggered: {{ editingKeyCount }}x</div>
+          <div class="counter">
+            Editing keys triggered: {{ editingKeyCount }}x
+          </div>
           <pre class="code-block">{{ editingCode }}</pre>
         </section>
 
@@ -525,9 +576,13 @@ useHotkey(
                   <kbd>{{ formatForDisplay('Mod+B') }}</kbd> — Trigger sidebar
                   action
                 </div>
-                <div><kbd>{{ formatForDisplay('Mod+N') }}</kbd> — New item</div>
+                <div>
+                  <kbd>{{ formatForDisplay('Mod+N') }}</kbd> — New item
+                </div>
               </div>
-              <div class="counter">Sidebar shortcuts: {{ sidebarShortcutCount }}x</div>
+              <div class="counter">
+                Sidebar shortcuts: {{ sidebarShortcutCount }}x
+              </div>
               <p class="hint">
                 These shortcuts only work when this sidebar area is focused or
                 contains focus.
@@ -537,7 +592,11 @@ useHotkey(
             <div class="scoped-area">
               <h3>Modal Dialog</h3>
               <button @click="modalOpen = true">Open Modal</button>
-              <div v-if="modalOpen" class="modal-overlay" @click="modalOpen = false">
+              <div
+                v-if="modalOpen"
+                class="modal-overlay"
+                @click="modalOpen = false"
+              >
                 <div
                   ref="modalRef"
                   class="modal-content"
@@ -547,16 +606,20 @@ useHotkey(
                   <h3>Modal Dialog (Scoped)</h3>
                   <p>Try these shortcuts while modal is open:</p>
                   <div class="hotkey-list">
-                    <div><kbd>{{ formatForDisplay('Escape') }}</kbd> — Close modal</div>
+                    <div>
+                      <kbd>{{ formatForDisplay('Escape') }}</kbd> — Close modal
+                    </div>
                     <div>
                       <kbd>{{ formatForDisplay('Mod+Enter') }}</kbd> — Submit
                     </div>
                   </div>
-                  <div class="counter">Modal shortcuts: {{ modalShortcutCount }}x</div>
+                  <div class="counter">
+                    Modal shortcuts: {{ modalShortcutCount }}x
+                  </div>
                   <p class="hint">
-                    These shortcuts only work when the modal is open and focused.
-                    The Escape key here won't conflict with the global Escape
-                    handler.
+                    These shortcuts only work when the modal is open and
+                    focused. The Escape key here won't conflict with the global
+                    Escape handler.
                   </p>
                   <button @click="modalOpen = false">Close</button>
                 </div>
@@ -568,12 +631,15 @@ useHotkey(
               <p>Focus the editor below and try:</p>
               <div class="hotkey-list">
                 <div>
-                  <kbd>{{ formatForDisplay('Mod+S') }}</kbd> — Save editor content
+                  <kbd>{{ formatForDisplay('Mod+S') }}</kbd> — Save editor
+                  content
                 </div>
                 <div>
                   <kbd>{{ formatForDisplay('Mod+/') }}</kbd> — Add comment
                 </div>
-                <div><kbd>{{ formatForDisplay('Mod+K') }}</kbd> — Clear editor</div>
+                <div>
+                  <kbd>{{ formatForDisplay('Mod+K') }}</kbd> — Clear editor
+                </div>
               </div>
               <textarea
                 ref="editorRef"
@@ -582,9 +648,12 @@ useHotkey(
                 placeholder="Focus here and try the shortcuts above..."
                 rows="8"
               />
-              <div class="counter">Editor shortcuts: {{ editorShortcutCount }}x</div>
+              <div class="counter">
+                Editor shortcuts: {{ editorShortcutCount }}x
+              </div>
               <p class="hint">
-                These shortcuts only work when the editor is focused. Notice that
+                These shortcuts only work when the editor is focused. Notice
+                that
                 <kbd>{{ formatForDisplay('Mod+S') }}</kbd> here doesn't conflict
                 with the global <kbd>{{ formatForDisplay('Mod+S') }}</kbd>
                 shortcut.
